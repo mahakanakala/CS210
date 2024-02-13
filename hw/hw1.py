@@ -15,7 +15,22 @@ from collections import Counter
 def read_ratings_data(f):
     # parameter f: movie ratings file name f (e.g. "movieRatingSample.txt")
     # return: dictionary that maps movie to ratings
+    f = open("movieRatingSample.txt", "r")
+    
+    movie_ratings_dict = {}
+    # Current: Toy Story (1995)|4.0|1
+    # Output: { "The Lion King (2019)" : [6.0, 7.5, 5.1], "Titanic (1997)": [7] }
+    for line in f:
+        parts = line.strip().split("|")
+        movie = parts[0]
+        rating = parts[1]
+        
+        if movie not in movie_ratings_dict:
+            movie_ratings_dict[movie] = []
+        movie_ratings_dict[movie].append(float(rating))
+        
     # WRITE YOUR CODE BELOW
+    return movie_ratings_dict
     pass
     
 
@@ -23,7 +38,20 @@ def read_ratings_data(f):
 def read_movie_genre(f):
     # parameter f: movies genre file name f (e.g. "genreMovieSample.txt")
     # return: dictionary that maps movie to genre
+    # Output: { "Toy Story (1995)" : "Adventure", "Golden Eye (1995)" : "Action" }
     # WRITE YOUR CODE BELOW
+    movie_genre_dict = {}
+    f = open("genreMovieSample.txt", "r")
+
+    for line in f:
+        parts = line.strip().split("|")
+        print(parts)
+        
+    # if movie not in movie_genre_dict:
+    #     movie_genre_dict[movie] = []
+    #     movie_genre_dict[movie].append(float(rating))
+        
+        
     pass
 
 # ------ TASK 2: PROCESSING DATA --------
