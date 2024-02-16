@@ -15,7 +15,7 @@ from collections import Counter
 def read_ratings_data(f):
     # parameter f: movie ratings file name f (e.g. "movieRatingSample.txt")
     # return: dictionary that maps movie to ratings
-    f = open("movieRatingSample.txt", "r")
+    # f = open("./data/movieRatingSample.txt", "r")
     
     movie_ratings_dict = {}
     # Current: Toy Story (1995)|4.0|1
@@ -149,6 +149,7 @@ def recommend_movies(user_id, user_to_movies, movie_to_genre, movie_to_average_r
 def main():
     # write all your test code here
     # this function will be ignored by us when grading
+    read_ratings_data("./data/movieRatingSample.txt")
     pass
     
 # DO NOT write ANY CODE (including variable names) outside of any of the above functions
