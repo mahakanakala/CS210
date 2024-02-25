@@ -150,6 +150,7 @@ def main():
     # write all your test code here
     # this function will be ignored by us when grading
     read_ratings_data("./data/movieRatingSample.txt")
+    read_movie_genre("./data/genreMovieSample.txt")
     pass
     
 # DO NOT write ANY CODE (including variable names) outside of any of the above functions
