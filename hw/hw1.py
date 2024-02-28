@@ -37,18 +37,17 @@ def read_movie_genre(f):
     # WRITE YOUR CODE BELOW
     movie_genre_dict = {}
     with open(f, 'r') as file:
-        for line in f:
+        for line in file:
             parts = line.strip().split("|")
-            genre = parts[0]
+            genre = parts[0]  
             movie = parts[2]
-            if movie not in movie_genre_dict:
-                movie_genre_dict[movie] = genre
+            movie_genre_dict[movie] = genre
     return movie_genre_dict
 
 
 # ------ TASK 2: PROCESSING DATA --------
 
-# 2.1
+# 2.1, "Father of the Bride Part II (1995)" come before "Waiting to Exhale (1995)"
 def create_genre_dict(d):
     # parameter d: dictionary that maps movie to genre
     # return: dictionary that maps genre to movies
@@ -79,10 +78,12 @@ def get_popular_movies(d, n=10):
     # return: dictionary that maps movie to average rating, 
     #         in ranked order from highest to lowest average rating
     # WRITE YOUR CODE BELOW
-    top_n_movies_dict = {m: r for m, r in sorted(d.items(), key=lambda item: item[1], reverse=True)}
+    sorted_movies = sorted(d.items(), key=lambda item: item[1], reverse=True)
+    top_n_movies_dict = dict(sorted_movies[:n])
     return top_n_movies_dict
     
 # 3.2
+# Order is different
 def filter_movies(d, thres_rating=3):
     # parameter d: dictionary that maps movie to average rating
     # parameter thres_rating: threshold rating, default value 3
@@ -155,7 +156,7 @@ def get_user_genre(user_id, user_to_movies, movie_to_genre):
         genre = movie_to_genre.get(movie)
         genre_ratings[genre].append(rating)
     average_genre_ratings = {genre: sum(ratings) / len(ratings) for genre, ratings in genre_ratings.items()}
-    user_top_genre = max(average_genre_ratings, key=average_genre_ratings.get)
+    user_top_genre = max(average_genre_ratings, key=average_genre_ratings.get, default=0)
     return user_top_genre
     
 # 4.3    
@@ -177,10 +178,46 @@ def recommend_movies(user_id, user_to_movies, movie_to_genre, movie_to_average_r
 def main():
     # write all your test code here
     # this function will be ignored by us when grading
-    read_ratings_data("movieRatingSample.txt")
-    movie_to_genre = read_movie_genre("genreMovieSample.txt")
-    genre_to_movies = create_genre_dict(movie_to_genre)
-    pass
+    ratings_data = read_ratings_data("/Users/mahakanakala/Downloads/cs210/hw/moveRatingsSample.txt")
+    movie_to_genre = read_movie_genre("/Users/mahakanakala/Downloads/cs210/hw/genreMovieSample.txt") 
+
+    # Processing data
+    genre_dict = create_genre_dict(movie_to_genre)
+    average_ratings = calculate_average_rating(ratings_data)
+
+    # Recommendation
+    popular_movies = get_popular_movies(average_ratings, n=3)
+    filtered_movies = filter_movies(average_ratings, 4.5)
+    popular_in_comedy = get_popular_in_genre("Comedy", genre_dict, average_ratings)
+    genre_rating = get_genre_rating("Comedy", genre_dict, average_ratings)
+    genre_popularity_dict = genre_popularity(genre_dict, average_ratings)
+    user_ratings = read_user_ratings("/Users/mahakanakala/Downloads/cs210/hw/moveRatingsSample.txt")
+    user_top_genre = get_user_genre("18", user_ratings, movie_to_genre)
+    recommended_movies = recommend_movies("18", user_ratings, movie_to_genre, average_ratings)
+
+    print("1.1:", ratings_data)
+    print('\n')
+    print("1.2:", movie_to_genre)
+    print('\n')
+    print("2.1:", genre_dict)
+    print('\n')
+    print("2.2:", average_ratings)
+    print('\n')
+    print("3.1", popular_movies)
+    print("\n")
+    print("3.2:", filtered_movies)
+    print("\n")
+    print("3.3:", popular_in_comedy)
+    print("\n")
+    print("3.4:", genre_rating)
+    print("\n")
+    print("3.5:", genre_popularity_dict)
+    print('\n')
+    print("4.1", user_ratings)
+    print("\n")
+    print("4.2:", user_top_genre)
+    print("\n")
+    print("4.3:", recommended_movies)
     
 # DO NOT write ANY CODE (including variable names) outside of any of the above functions
 # In other words, ALL code your write (including variable names) MUST be inside one of
@@ -188,6 +225,4 @@ def main():
     
 # program will start at the following main() function call
 # when you execute hw1.py
-main()
-
-    
+main()    
