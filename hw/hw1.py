@@ -21,8 +21,8 @@ def read_ratings_data(f):
     with open(f, 'r') as file:
         for line in file:
             parts = line.strip().split("|")
-            movie = parts[0]
-            rating = parts[1]
+            movie = parts[0].strip()
+            rating = parts[1].strip()
             if movie not in movie_ratings_dict:
                 movie_ratings_dict[movie] = []
             movie_ratings_dict[movie].append(float(rating))
@@ -39,8 +39,8 @@ def read_movie_genre(f):
     with open(f, 'r') as file:
         for line in file:
             parts = line.strip().split("|")
-            genre = parts[0]  
-            movie = parts[2]
+            genre = parts[0].strip()  
+            movie = parts[2].strip()
             movie_genre_dict[movie] = genre
     return movie_genre_dict
 
@@ -55,7 +55,7 @@ def create_genre_dict(d):
     genre_movie_dict = defaultdict(list)
     for movie, genre in d.items():
         genre_movie_dict[genre].append(movie)
-    return genre_movie_dict
+    return dict(genre_movie_dict)
 
     
 # 2.2
@@ -138,10 +138,14 @@ def read_user_ratings(f):
     user_ratings_dict = defaultdict(list)
     with open(f, 'r') as file:
         for line in file:
-            movie, rating, user_id = line.strip().split('|')
+            # movie, rating, user_id = line.strip().split('|')
+            parts = line.strip().split('|')
+            movie = parts[0].strip()
+            rating = parts[1].strip()
+            user_id = parts[2].strip()
             user_ratings_dict[user_id].append((movie, float(rating)))
             # print(type(user_id))
-    return user_ratings_dict
+    return dict(user_ratings_dict)
     
 # 4.2
 def get_user_genre(user_id, user_to_movies, movie_to_genre):
@@ -151,6 +155,7 @@ def get_user_genre(user_id, user_to_movies, movie_to_genre):
     # return: top genre that user likes
     # WRITE YOUR CODE BELOW
     ratings = user_to_movies.get(user_id, [])
+    # print(ratings)
     genre_ratings = defaultdict(list)
     for movie, rating in ratings:
         genre = movie_to_genre.get(movie)
@@ -187,13 +192,13 @@ def main():
 
     # Recommendation
     popular_movies = get_popular_movies(average_ratings, n=3)
-    filtered_movies = filter_movies(average_ratings, 4.5)
-    popular_in_comedy = get_popular_in_genre("Comedy", genre_dict, average_ratings)
-    genre_rating = get_genre_rating("Comedy", genre_dict, average_ratings)
+    filtered_movies = filter_movies(average_ratings)
+    popular_in_comedy = get_popular_in_genre("Action", genre_dict, average_ratings)
+    genre_rating = get_genre_rating("Action", genre_dict, average_ratings)
     genre_popularity_dict = genre_popularity(genre_dict, average_ratings)
     user_ratings = read_user_ratings("/Users/mahakanakala/Downloads/cs210/hw/moveRatingsSample.txt")
-    user_top_genre = get_user_genre("18", user_ratings, movie_to_genre)
-    recommended_movies = recommend_movies("18", user_ratings, movie_to_genre, average_ratings)
+    user_top_genre = get_user_genre("1", user_ratings, movie_to_genre)
+    recommended_movies = recommend_movies("1", user_ratings, movie_to_genre, average_ratings)
 
     print("1.1:", ratings_data)
     print('\n')
@@ -213,7 +218,7 @@ def main():
     print("\n")
     print("3.5:", genre_popularity_dict)
     print('\n')
-    print("4.1", user_ratings)
+    print("4.1:", user_ratings)
     print("\n")
     print("4.2:", user_top_genre)
     print("\n")

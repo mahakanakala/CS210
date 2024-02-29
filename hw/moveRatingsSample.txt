@@ -1,4 +1,4 @@
-Toy Story (1995)|4.0|1
+Toy Story (1995) |4.0|1
 Toy Story (1995)|4.0|5
 Toy Story (1995)|4.5|7
 Toy Story (1995)|2.5|15
