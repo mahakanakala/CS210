@@ -36,30 +36,34 @@ def fill_missing_types(filename):
             filled_data.append(row)
     return filled_data
 
-import csv
+def create_pokemon_personality_mapping(data_file):
+    pokemon_personality_mapping = {}
 
-def create_type_to_personality_mapping(filename):
-    personality_mapping = {}
-    
-    with open(filename, 'r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            if row['type'] not in personality_mapping:
-                personality_mapping[row['type']] = set()
-            personality_mapping[row['type']].add(row['personality'])
-    
-    sorted_mapping = dict(sorted(personality_mapping.items()))
-    
-    with open('pokemon4.txt', 'w') as file:
-        file.write("Pokemon type to personality mapping:\n\n")
+    with open(data_file, 'r') as file:
+        next(file)
+        for line in file:
+            parts = line.strip().split(',')
+            pokemon_type = parts[4]
+            personality = parts[3]
+
+            if pokemon_type in pokemon_personality_mapping:
+                pokemon_personality_mapping[pokemon_type].append(personality)
+
+            else:
+                pokemon_personality_mapping[pokemon_type] = [personality]
+
+    sorted_mapping = dict(sorted(pokemon_personality_mapping.items()))
+
+    for pokemon_type in sorted_mapping:
+        sorted_mapping[pokemon_type].sort()
+
+    # print("Pokemon type to personality mapping:")
+    with open("pokemon4.txt", 'w') as output_file:
         for pokemon_type, personalities in sorted_mapping.items():
-            file.write(f"{pokemon_type}: {', '.join(sorted(personalities))}\n")
-    
-    return sorted_mapping
+            print(f"{pokemon_type}: {', '.join(personalities)}", file=output_file)
+            # print(f"{pokemon_type}: {', '.join(personalities)}")
 
-# Example usage
-# filename = '../data/pokemon4.txt'
-# create_type_to_personality_mapping(filename)
+# create_pokemon_personality_mapping("../data/pokemonResult.csv")
 
 def fill_missing_values(data):
     atk_sum_over_40 = 0
@@ -171,6 +175,6 @@ modified_data = fill_missing_values(data)
 # Create csv from 2 & 3
 write_to_csv(modified_data, '../data/pokemonResult.csv')
 # 4
-create_type_to_personality_mapping(filename = './pokemon4.txt')
+create_pokemon_personality_mapping("../data/pokemonResult.csv")
 # 5
-calculate_average_hit_points('./pokemon5.txt')
+calculate_average_hit_points('../data/pokemonResult.csv')
