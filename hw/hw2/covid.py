@@ -1,73 +1,5 @@
-import re
 import csv
 from collections import defaultdict, Counter
-
-def age_col(input_file):
-    edited_data = []
-    with open(input_file, 'r') as file:
-        reader = csv.DictReader(file)
-        header = next(reader)
-        edited_data.append(header) 
-        for row in reader:
-            if '-' in row['age']:
-                ages = row['age'].split('-')
-                avg_age = (int(ages[0]) + int(ages[1])) / 2
-                row['age'] = str(avg_age)
-            edited_data.append(row)
-
-    return edited_data
-
-def date_col(input_file):
-    edited_data = []
-    with open(input_file, 'r') as file:
-        reader = csv.DictReader(file)
-        header = next(reader)
-        edited_data.append(header)
-        for row in reader:
-            if '.' in row['date_onset_symptoms']:
-                date = row['date_onset_symptoms'].split('.')
-                day, month, year = date[0], date[1], date[2]
-                row['date_onset_symptoms'] = month + "." + day + "."+ year
-            edited_data.append(row)
-    
-    return edited_data
-
-def replace_empty_vals(input_file):
-    edited_data = []
-    province_data = defaultdict(list)
-
-    # Read the input CSV file and store data by province
-    with open(input_file, 'r') as file:
-        reader = csv.DictReader(file)
-        header = next(reader)
-        edited_data.append(header)  # Include header in the edited data
-        for row in reader:
-            province_data[row['province']].append(row)
-
-    # Calculate the average latitude and longitude for each province
-    for province, data in province_data.items():
-        lat_sum = 0
-        long_sum = 0
-        count = 0
-        for entry in data:
-            if entry['latitude'].lower() != 'nan' and entry['longitude'].lower() != 'nan':
-                lat_sum += float(entry['latitude'])
-                long_sum += float(entry['longitude'])
-                count += 1
-
-        if count > 0:
-            lat_avg = round(lat_sum / count, 2)
-            long_avg = round(long_sum / count, 2)
-
-            # Update missing latitude and longitude values with the average
-            for entry in data:
-                if entry['latitude'].lower() == 'nan' or entry['longitude'].lower() == 'nan':
-                    entry['latitude'] = str(lat_avg)
-                    entry['longitude'] = str(long_avg)
-
-            edited_data.extend(data) 
-
-    return edited_data
 
 def fill_missing_city_values(file_path):
     province_city_counts = defaultdict(Counter)
@@ -97,59 +29,81 @@ def fill_missing_city_values(file_path):
                     # If no data for the province, fill with 'Unknown'
                     row['city'] = 'Unknown'
             updated_rows.append(row)
-            # print(updated_rows)
     
     return updated_rows
 
-def fill_missing_symptoms_values(input_file):
-    province_symptoms_counts = {}
+def preprocess_covid_data(input_file):
+    # Read input CSV file
+    with open(input_file, 'r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        data = [row for row in reader]
 
-    with open(input_file, 'r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            symptoms = row['symptoms'].strip().lower()
-            province = row['province'].strip().lower()
-            if symptoms != 'nan':
-                if province not in province_symptoms_counts:
-                    province_symptoms_counts[province] = Counter()
-                province_symptoms_counts[province][symptoms] += 1
+    # Task 1: Replace age ranges with rounded average
+    for row in data:
+        if '-' in row['age']:
+            age_range = row['age'].split('-')
+            avg_age = round((int(age_range[0]) + int(age_range[1])) / 2)
+            row['age'] = str(avg_age)
 
-    updated_rows = []
-    with open(input_file, 'r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            symptoms = row['symptoms'].strip().lower()
-            province = row['province'].strip().lower()
-            if symptoms == 'nan':
-                if province in province_symptoms_counts:
-                    most_common_symptoms = province_symptoms_counts[province].most_common()
-                    if most_common_symptoms:
-                        most_common_symptoms.sort(key=lambda x: (x[1], x[0]))
-                        row['symptoms'] = most_common_symptoms[0][0]
-                else:
-                    row['symptoms'] = 'Unknown'
-            updated_rows.append(row)
+    # Task 2: Change date format for date columns
+    for row in data:
+        date_columns = ['date_onset_symptoms', 'date_admission_hospital', 'date_confirmation']
+        for col in date_columns:
+            if row[col]:
+                parts = row[col].split('.')
+                row[col] = parts[1] + '.' + parts[0] + '.' + parts[2]
 
-    return updated_rows
+    # Task 3: Fill missing latitude and longitude values by province average
+    province_latitudes = defaultdict(list)
+    province_longitudes = defaultdict(list)
+    for row in data:
+        if row['latitude'] and row['longitude']:
+            province_latitudes[row['province']].append(float(row['latitude']))
+            province_longitudes[row['province']].append(float(row['longitude']))
 
-def covid_file_name(input_file, output_file='covidResult.csv'):
-    age_col_csv = age_col(input_file)
-    date_col_csv = date_col(input_file)
-    replace_empty_vals_csv = replace_empty_vals(input_file)
-    fill_missing_symptoms_values_csv = fill_missing_symptoms_values(input_file)
-    
-    # Merge data from all processing steps
-    merged_data = []
-    for rows in zip(age_col_csv, date_col_csv, replace_empty_vals_csv, fill_missing_symptoms_values_csv):
-        merged_row = {}
-        for row in rows:
-            merged_row.update(row)
-        merged_data.append(merged_row)
-    
-    # Write merged data to output CSV file
-    with open(output_file, 'w', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=merged_data[0].keys())
+    for row in data:
+        if not row['latitude'] or not row['longitude']:
+            province = row['province']
+            if province in province_latitudes:
+                avg_lat = round(sum(province_latitudes[province]) / len(province_latitudes[province]), 2)
+                avg_lon = round(sum(province_longitudes[province]) / len(province_longitudes[province]), 2)
+                row['latitude'] = str(avg_lat)
+                row['longitude'] = str(avg_lon)
+
+    # Task 4: Fill missing city values by most occurring city in province
+    # province_cities = defaultdict(list)
+    # for row in data:
+    #     if row['city']:
+    #         province_cities[row['province']].append(row['city'])
+
+    # for row in data:
+    #     if not row['city']:
+    #         province = row['province']
+    #         if province in province_cities and province_cities[province]:
+    #             mode_city = max(set(province_cities[province]), key=province_cities[province].count)
+    #             row['city'] = mode_city
+    updated_rows = fill_missing_city_values(input_file)
+
+    # Task 5: Fill missing symptom values by most frequent symptom in province
+    province_symptoms = defaultdict(list)
+    for row in data:
+        if row['symptoms']:
+            province_symptoms[row['province']].extend(row['symptoms'].split(';'))
+
+    for row in data:
+        if not row['symptoms']:
+            province = row['province']
+            if province in province_symptoms:
+                mode_symptom = max(set(province_symptoms[province]), key=province_symptoms[province].count)
+                row['symptoms'] = mode_symptom
+
+    # Write result to output CSV file
+    with open('covidResult.csv', 'w', newline='') as csvfile:
+        fieldnames = data[0].keys()
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerows(merged_data)
+        for row in data:
+            writer.writerow(row)
 
-covid_file_name('../data/covidTrain.csv')
+# Test the function with the provided sample file
+preprocess_covid_data('../data/covidTrain.csv')

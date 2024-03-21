@@ -1,3 +1,5 @@
+Pokemon type to personality mapping: 
+
 bug: careful
 electric: hardy
 fairy: impish, naughty, sassy

@@ -57,8 +57,9 @@ def create_pokemon_personality_mapping(data_file):
     for pokemon_type in sorted_mapping:
         sorted_mapping[pokemon_type].sort()
 
-    # print("Pokemon type to personality mapping:")
+    
     with open("pokemon4.txt", 'w') as output_file:
+        print("Pokemon type to personality mapping: \n", file=output_file)
         for pokemon_type, personalities in sorted_mapping.items():
             print(f"{pokemon_type}: {', '.join(personalities)}", file=output_file)
             # print(f"{pokemon_type}: {', '.join(personalities)}")
