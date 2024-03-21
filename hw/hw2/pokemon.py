@@ -37,35 +37,42 @@ def fill_missing_types(filename):
     return filled_data
 
 def create_pokemon_personality_mapping(data_file):
+    # Define an empty dictionary to store the mappings
     pokemon_personality_mapping = {}
 
+    # Read the data file and process each line
     with open(data_file, 'r') as file:
-        next(file)
+        next(file)  # Skip the header line
         for line in file:
             parts = line.strip().split(',')
             pokemon_type = parts[4]
             personality = parts[3]
 
+            # If the type already exists in the dictionary, append the personality
             if pokemon_type in pokemon_personality_mapping:
-                pokemon_personality_mapping[pokemon_type].append(personality)
-
+                if personality not in pokemon_personality_mapping[pokemon_type]:
+                    pokemon_personality_mapping[pokemon_type].append(personality)
+            # If the type doesn't exist, create a new entry with the personality
             else:
                 pokemon_personality_mapping[pokemon_type] = [personality]
 
+    # Sort the dictionary keys alphabetically
     sorted_mapping = dict(sorted(pokemon_personality_mapping.items()))
 
+    # Sort the personalities alphabetically within each type
     for pokemon_type in sorted_mapping:
         sorted_mapping[pokemon_type].sort()
 
+    # Print the dictionary in the required format
     
     with open("pokemon4.txt", 'w') as output_file:
-        print("Pokemon type to personality mapping: \n", file=output_file)
+        print("Pokemon type to personality mapping: \n",file=output_file)
         for pokemon_type, personalities in sorted_mapping.items():
-            print(f"{pokemon_type}: {', '.join(personalities)}", file=output_file)
-            # print(f"{pokemon_type}: {', '.join(personalities)}")
+            
+            print(f"  {pokemon_type}: {', '.join(personalities)}", file=output_file)
+            print(f"  {pokemon_type}: {', '.join(personalities)}")
 
-# create_pokemon_personality_mapping("../data/pokemonResult.csv")
-
+# Call the function with the data file
 def fill_missing_values(data):
     atk_sum_over_40 = 0
     def_sum_over_40 = 0
