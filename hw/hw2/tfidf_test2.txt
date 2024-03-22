@@ -1,1 +1,1 @@
-[('lorem', 0.15), ('ipsum', 0.15), ('latin', 0.12), ('classical', 0.08), ('literature', 0.08)]
+[('lorem', 0.09), ('ipsum', 0.09), ('of', 0.09), ('in', 0.08), ('the', 0.08)]

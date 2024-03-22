@@ -1,6 +1,7 @@
 import re
 import math
 from collections import Counter
+from fractions import Fraction
 
 def clean(text):
     cleaned_text = ""
@@ -48,8 +49,8 @@ def stemming_and_lemmatization(text):
 def preprocess_texts(documents_file):
     preprocessed_docs = {}
     with open(documents_file, 'r') as f:
-        document_paths = f.readlines()  # Read document paths from file
-        document_paths = [path.strip() for path in document_paths]  # Remove trailing newlines
+        document_paths = f.readlines()
+        document_paths = [path.strip() for path in document_paths]
 
     for document_path in document_paths:
         with open(document_path, 'r') as infile:
@@ -59,10 +60,8 @@ def preprocess_texts(documents_file):
         text_no_stopwords = remove_stopwords(cleaned_text, '../data/stopwords.txt')
         preprocessed_text = stemming_and_lemmatization(text_no_stopwords)
 
-        # Extract document name from path
-        document_name = document_path.split('/')[-1]  # Assuming path format
+        document_name = document_path.split('/')[-1]
 
-        # Add preprocessed text to dictionary with document name as key
         preprocessed_docs[document_name] = preprocessed_text
 
     return preprocessed_docs
@@ -77,20 +76,31 @@ def compute_tf_idf(preprocessed_documents):
     # Step 1: Compute TF and IDF for each document
     for doc_name, preprocessed_doc in preprocessed_documents.items():
         # Compute TF
+        print(f"\nComputing TF-IDF for document: {doc_name}")
         term_frequency = Counter(preprocessed_doc.split())
         total_terms = len(preprocessed_doc.split())
         tf = {word: freq/total_terms for word, freq in term_frequency.items()}
+        print(term_frequency)
+        # print("TF:", tf)
         
         # Compute IDF
         num_documents = len(preprocessed_documents)
         idf = {}
-        for word in term_frequency:
-            num_docs_with_word = sum(1 for doc in preprocessed_documents.values() if word in doc)
-            idf[word] = math.log(num_documents / num_docs_with_word) + 1
-
+        print("total number of documents: ", num_documents)
+        loop_counter = 0
+        
+        for word in term_frequency.keys():
+          num_docs_with_word = sum(1 for doc in preprocessed_documents.values() if word in doc.split())
+          idf[word] = math.log((num_documents) / (num_docs_with_word)) + 1
+          
+          print(f"{word}: {num_docs_with_word}")
+          loop_counter += 1 
+        print("Number of iterations:", loop_counter) 
+        print("IDF:", idf)
+        
         # Calculate TF-IDF
         tf_idf_scores = {word: round(tf[word] * idf[word], 2) for word in tf}
-
+        print("TF-IDF:", tf_idf_scores)
         # Sort and format the results
         sorted_scores = sorted(tf_idf_scores.items(), key=lambda x: x[1], reverse=True)[:5]
         output_data = [(word, score) for word, score in sorted_scores]
@@ -106,9 +116,3 @@ def compute_tf_idf(preprocessed_documents):
 preprocessed_docs = preprocess_texts('../data/tfidf_docs.txt')
 
 tf_idf_results = compute_tf_idf(preprocessed_docs)
-
-# Print TF-IDF results
-# for doc_name, results in tf_idf_results.items():
-#     print(doc_name)
-#     for word, score in results:
-#         print(f"{word}: {score}")

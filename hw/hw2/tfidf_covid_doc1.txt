@@ -1,1 +1,1 @@
-[('disease', 0.18), ('covid19', 0.09), ('people', 0.09), ('coronavirus', 0.07), ('respiratory', 0.07)]
+[('disease', 0.14), ('and', 0.09), ('coronavirus', 0.06), ('people', 0.06), ('illness', 0.06)]
