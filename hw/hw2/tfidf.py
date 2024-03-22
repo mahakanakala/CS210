@@ -1,5 +1,6 @@
 import re
 import math
+from collections import Counter
 
 def clean(text):
     cleaned_text = ""
@@ -67,33 +68,27 @@ def preprocess_texts(documents_file):
     return preprocessed_docs
 
 preprocessed_docs = preprocess_texts('../data/tfidf_docs.txt')
-# preprocess_text('../data/test1.txt')
-# preprocess_text('../data/test2.txt')
 
 # ---
 
 def compute_tf_idf(preprocessed_documents):
     tf_idf_results = {}
 
-    # Access preprocessed documents correctly
     for doc_name, preprocessed_doc in preprocessed_documents.items():
-
         # Step 1: Compute TF
-        term_frequency = {}
-        total_terms = len(preprocessed_doc.split())  # Split to get individual terms
-        for term in preprocessed_doc.split():
-            term_frequency[term] = term_frequency.get(term, 0) + 1
+        term_frequency = Counter(preprocessed_doc.split())
+        total_terms = len(preprocessed_doc.split())
 
         # Step 2: Compute IDF
         document_frequency = {}
-        for term in set(preprocessed_doc.split()):  # Split to get unique terms
-            for _, other_doc in preprocessed_documents.items():
-                if term in other_doc.split():  # Split to compare individual terms
+        for term in term_frequency.keys():
+            for other_doc_name, other_preprocessed_doc in preprocessed_documents.items():
+                if term in other_preprocessed_doc.split():
                     document_frequency[term] = document_frequency.get(term, 0) + 1
         num_documents = len(preprocessed_documents)
         inverse_document_frequency = {
-            term: math.log(num_documents / (document_frequency[term] + 1)) + 1
-            for term in document_frequency
+            term: math.log(num_documents / (document_frequency.get(term, 0))) + 1
+            for term in term_frequency
         }
 
         # Step 3: Calculate TF-IDF
@@ -102,15 +97,15 @@ def compute_tf_idf(preprocessed_documents):
             for term in term_frequency
         }
 
-        # Step 4: Sort and store TF-IDF scores
-        sorted_tf_idf = sorted(tf_idf_scores.items(), key=lambda x: x[1], reverse=True)
-        top_5 = sorted_tf_idf[:5]
-        tf_idf_results[doc_name] = top_5
-
-        output_file = f"tfidf_{doc_name}"
-        with open(output_file, "w") as outfile:
-            for word, score in top_5:
-                outfile.write(f"{word}: {score}\n")
+        # Sort and format the results
+        sorted_scores = sorted(tf_idf_scores.items(), key=lambda x: x[1], reverse=True)[:5]
+        output_data = [(word, score) for word, score in sorted_scores]
+        output_file = "tfidf_" + doc_name
+        with open(output_file, 'w') as outfile:
+            outfile.write(f"{output_data}")
+                
+        # Store results in the dictionary
+        tf_idf_results[doc_name] = output_data
 
     return tf_idf_results
 
@@ -121,13 +116,7 @@ preprocessed_docs = preprocess_texts('../data/tfidf_docs.txt')
 tf_idf_results = compute_tf_idf(preprocessed_docs)
 
 # Print TF-IDF results
-for doc_name, results in tf_idf_results.items():
-    print(doc_name)
-    for word, score in results:
-        print(f"{word}: {score}")
-
-# Read and preprocess documents
-# preprocessed_docs = preprocess_texts('../data/tfidf_docs.txt')
-
-# # Compute TF-IDF scores
-# tf_idf_results = compute_tf_idf(preprocessed_docs)
+# for doc_name, results in tf_idf_results.items():
+#     print(doc_name)
+#     for word, score in results:
+#         print(f"{word}: {score}")
