@@ -76,31 +76,30 @@ def compute_tf_idf(preprocessed_documents):
     # Step 1: Compute TF and IDF for each document
     for doc_name, preprocessed_doc in preprocessed_documents.items():
         # Compute TF
-        print(f"\nComputing TF-IDF for document: {doc_name}")
+        # print(f"\nComputing TF-IDF for document: {doc_name}")
         term_frequency = Counter(preprocessed_doc.split())
         total_terms = len(preprocessed_doc.split())
         tf = {word: freq/total_terms for word, freq in term_frequency.items()}
-        print(term_frequency)
+        # print(term_frequency)
         # print("TF:", tf)
         
         # Compute IDF
         num_documents = len(preprocessed_documents)
         idf = {}
-        print("total number of documents: ", num_documents)
+        # print("total number of documents: ", num_documents)
         loop_counter = 0
         
         for word in term_frequency.keys():
           num_docs_with_word = sum(1 for doc in preprocessed_documents.values() if word in doc.split())
-          idf[word] = math.log((num_documents) / (num_docs_with_word)) + 1
+          idf[word] = math.log((num_documents) / (num_docs_with_word), 10) + 1
           
-          print(f"{word}: {num_docs_with_word}")
           loop_counter += 1 
-        print("Number of iterations:", loop_counter) 
-        print("IDF:", idf)
+        # print("Number of iterations:", loop_counter) 
+        # print("IDF:", idf)
         
         # Calculate TF-IDF
         tf_idf_scores = {word: round(tf[word] * idf[word], 2) for word in tf}
-        print("TF-IDF:", tf_idf_scores)
+        # print("TF-IDF:", tf_idf_scores)
         # Sort and format the results
         sorted_scores = sorted(tf_idf_scores.items(), key=lambda x: x[1], reverse=True)[:5]
         output_data = [(word, score) for word, score in sorted_scores]
