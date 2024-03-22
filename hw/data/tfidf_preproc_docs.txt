@@ -1,0 +1,8 @@
+./preproc_test1.txt
+./preproc_test2.txt
+./preproc_covid_doc1.txt
+./preproc_covid_doc2.txt
+./preproc_covid_doc3.txt
+./preproc_d1.txt
+./preproc_d2.txt
+./preproc_d3.txt
