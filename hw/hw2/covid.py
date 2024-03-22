@@ -37,8 +37,10 @@ def preprocess_covid_data(input_file):
                 # Only round latitude and longitude if they were NaN
                 if row['latitude'] == 'NaN':
                     row['latitude'] = round(avg_lat, 2)
+                    # row['latitude'] = avg_lat
                 if row['longitude'] == 'NaN':
                     row['longitude'] = round(avg_long, 2)
+                    # row['longitude'] = avg_long
 
     # Task 4: Fill missing city values by most occurring city in province
     province_cities = defaultdict(Counter)
