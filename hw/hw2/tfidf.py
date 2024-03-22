@@ -74,28 +74,22 @@ preprocessed_docs = preprocess_texts('../data/tfidf_docs.txt')
 def compute_tf_idf(preprocessed_documents):
     tf_idf_results = {}
 
+    # Step 1: Compute TF and IDF for each document
     for doc_name, preprocessed_doc in preprocessed_documents.items():
-        # Step 1: Compute TF
+        # Compute TF
         term_frequency = Counter(preprocessed_doc.split())
         total_terms = len(preprocessed_doc.split())
-
-        # Step 2: Compute IDF
-        document_frequency = {}
-        for term in term_frequency.keys():
-            for other_doc_name, other_preprocessed_doc in preprocessed_documents.items():
-                if term in other_preprocessed_doc.split():
-                    document_frequency[term] = document_frequency.get(term, 0) + 1
+        tf = {word: freq/total_terms for word, freq in term_frequency.items()}
+        
+        # Compute IDF
         num_documents = len(preprocessed_documents)
-        inverse_document_frequency = {
-            term: math.log(num_documents / (document_frequency.get(term, 0))) + 1
-            for term in term_frequency
-        }
+        idf = {}
+        for word in term_frequency:
+            num_docs_with_word = sum(1 for doc in preprocessed_documents.values() if word in doc)
+            idf[word] = math.log(num_documents / num_docs_with_word) + 1
 
-        # Step 3: Calculate TF-IDF
-        tf_idf_scores = {
-            term: round((term_frequency[term] / total_terms) * inverse_document_frequency[term], 2)
-            for term in term_frequency
-        }
+        # Calculate TF-IDF
+        tf_idf_scores = {word: round(tf[word] * idf[word], 2) for word in tf}
 
         # Sort and format the results
         sorted_scores = sorted(tf_idf_scores.items(), key=lambda x: x[1], reverse=True)[:5]
@@ -109,10 +103,8 @@ def compute_tf_idf(preprocessed_documents):
 
     return tf_idf_results
 
-# Read and preprocess documents
 preprocessed_docs = preprocess_texts('../data/tfidf_docs.txt')
 
-# Compute TF-IDF scores
 tf_idf_results = compute_tf_idf(preprocessed_docs)
 
 # Print TF-IDF results
