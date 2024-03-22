@@ -1,7 +1,7 @@
 # CS210
 ## HW2
-- [ ] [pokemon.py](hw/hw2/pokemon.py)
-  - [ ] task 4: [10 pts] Create a dictionary that maps pokemon types to their personalities. This dictionary would map a string to a list of strings. For example:
+- [X] [pokemon.py](hw/hw2/pokemon.py)
+  - [X] task 4: [10 pts] Create a dictionary that maps pokemon types to their personalities. This dictionary would map a string to a list of strings. For example:
      {"fire": ["docile", "modest", ...], "normal": ["mild", "relaxed", ...],  ...} Your dictionary should have the keys ordered alphabetically, and also items ordered alphabetically in the values list, as shown in the example above.
      Print the dictionary in the following format:
      Pokemon type to personality mapping:
@@ -9,12 +9,14 @@
       normal: mild, relaxed, ...
       fire: docile, modest, ...
       ...
-  - [ ] task 4.1: create the csv
+  - [X] task 4.1: create the csv
 - [ ] [covid.py](hw/hw2/covid.py)
   - [ ] task 3: [7 pts] Fill in the missing (NaN) "latitude" and "longitude" values by the average of the latitude and longitude values for the province where the case was recorded. Round the average to 2 decimal places. (not clculating correctly)
   - [X] task 4: [7 pts] Fill in the missing “city” values by the most occurring city value in that province. In case of a tie, use the city that appears first in alphabetical order.
   - [X] task 5: [10 pts] Fill in the missing "symptom" values by the single most frequent symptom in the province where the case was recorded. In case of a tie, use the symptom that appears first in alphabetical order.
 - [ ] [tfidf.py](hw/hw2/tfidf.py)
+  - [X] fix preprocess_documents function
+  - [ ] compute the tfidf accurately
 
 ## Problems I don't fully understand:
 - [PS2 Problem 3](recitation/ps2.ipynb)
