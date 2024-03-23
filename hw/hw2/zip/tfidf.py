@@ -31,7 +31,6 @@ def stemming_and_lemmatization(text):
         
         modified_word = word
         
-        # Apply multiple transformations sequentially
         transformations = [
             (r'ing$', ''),   # Remove 'ing' suffix
             (r'ly$', ''),    # Remove 'ly' suffix
