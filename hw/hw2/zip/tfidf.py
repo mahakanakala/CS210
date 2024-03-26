@@ -31,7 +31,6 @@ def stemming_and_lemmatization(text):
         
         modified_word = word
         
-        # Apply multiple transformations sequentially
         transformations = [
             (r'ing$', ''),   # Remove 'ing' suffix
             (r'ly$', ''),    # Remove 'ly' suffix
@@ -88,9 +87,13 @@ def compute_tf_idf(preprocessed_documents):
         
         for word in term_frequency.keys():
           num_docs_with_word = sum(1 for doc in preprocessed_documents.values() if word in doc.split())
-          idf[word] = math.log((num_documents) / (num_docs_with_word), 10) + 1
-          
-          loop_counter += 1 
+          # num_docs_with_word = 0
+          # for doc_text in preprocessed_documents.values():
+          #     if word in doc_text.split():
+          #         num_docs_with_word += 1
+          idf[word] = math.log((num_documents) / (num_docs_with_word)) + 1
+          # print(word + "-" + " Num of dosc with word: ", num_docs_with_word)
+
         # print("Number of iterations:", loop_counter) 
         # print("IDF:", idf)
         

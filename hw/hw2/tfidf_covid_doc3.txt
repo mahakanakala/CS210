@@ -1,1 +1,1 @@
-[('cause', 0.12), ('can', 0.12), ('coronaviruses', 0.09), ('and', 0.07), ('some', 0.07)]
+[('cause', 0.13), ('coronaviruses', 0.1), ('bronchitis', 0.08), ('pneumonia', 0.08), ('bacterial', 0.05)]
