@@ -91,7 +91,7 @@ def compute_tf_idf(preprocessed_documents):
         
         for word in term_frequency.keys():
           num_docs_with_word = sum(1 for doc in preprocessed_documents.values() if word in doc.split())
-          idf[word] = math.log((num_documents) / (num_docs_with_word), 10) + 1
+          idf[word] = math.log10((num_documents) / (num_docs_with_word)) + 1
           
           loop_counter += 1 
         # print("Number of iterations:", loop_counter) 

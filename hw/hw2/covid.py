@@ -2,7 +2,6 @@ import csv
 from collections import defaultdict, Counter
 
 def preprocess_covid_data(input_file):
-    # Read input CSV file
     with open(input_file, 'r', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         data = [row for row in reader]
