@@ -1,0 +1,5 @@
+alex,student,rutgers
+asher,student,rutgers
+albus,student,rutgers
+aerys,student,rutgers
+anthony,student,rutgers
