@@ -24,9 +24,13 @@
 - [PS2 Problem 4 and 5](recitation/ps2.ipynb)
 - [PS4 Problem 2](recitation/ps4.ipynb)
 - [ ] [PS 5 Problem 5](recitation/ps5.ipynb)
-- [ ] [PS 6 Problem 1.2](recitation/ps6.ipynb)
+- [ ] [PS 6 Problem 1.2, 3](recitation/ps6.ipynb)
+- [ ] [PS 7 Problem 2, 3](recitation/ps6.ipynb)
 
 ## Topics I need to go over:
+- [ ] CSV library
+  - [ ] csv.reader()
+  - [ ] csv.DictReader()
 
 ### Basic Python Syntax and Functions
 - [ ] `lambda` function
