@@ -1,0 +1,64 @@
+city,country,population,EU,coastline,latitude,longitude,temperature
+Elbasan,Albania,2.9,no,yes,41.12,20.08,15.18
+Vienna,Austria,8.57,yes,no,48.2,16.37,7.86
+Minsk,Belarus,9.48,no,no,52.61,27.57,5.28
+Orsha,Belarus,9.48,no,no,52.61,25.64,4.93
+Pinsk,Belarus,9.48,no,no,52.61,25.64,6.42
+Brest,Belarus,9.48,no,no,52.1,23.7,6.73
+Hrodna,Belarus,9.48,no,no,53.68,25.64,7.55
+Mazyr,Belarus,9.48,no,no,52.05,25.64,6.25
+Plovdiv,Bulgaria,7.1,yes,yes,43.05,26.35,8.27
+Burgas,Bulgaria,7.1,yes,yes,42.51,27.47,8.459047619047618
+Pleven,Bulgaria,7.1,yes,yes,43.42,26.35,10.51
+Ruse,Bulgaria,7.1,yes,yes,43.85,25.97,8.459047619047618
+Stara Zagora,Bulgaria,7.1,yes,yes,42.42,25.62,10.9
+Split,Croatia,4.23,yes,yes,45.33,16.47,12.46
+Brno,Czech Republic,10.55,yes,no,49.2,16.61,7.86
+Ostrava,Czech Republic,10.55,yes,no,49.83,15.54,7.66
+Tartu,Estonia,1.31,yes,yes,59.43,26.71,8.459047619047618
+Tallinn,Estonia,1.31,yes,yes,59.43,26.71,8.459047619047618
+Budapest,Hungary,9.82,yes,no,47.5,19.8,8.507142857142856
+Debrecen,Hungary,9.82,yes,no,47.53,21.63,8.87
+Gyor,Hungary,9.82,yes,no,47.7,17.63,9.65
+Szeged,Hungary,9.82,yes,no,46.25,20.15,10.34
+Bari,Italy,59.8,yes,yes,41.11,16.87,15.15
+Foggia,Italy,59.8,yes,yes,41.46,15.56,13.83
+Daugavpils,Latvia,1.96,yes,yes,56.95,26.51,5.38
+Riga,Latvia,1.96,yes,yes,56.95,26.51,8.459047619047618
+Klaipeda,Lithuania,2.85,yes,yes,55.72,25.32,7.0
+Kaunas,Lithuania,2.85,yes,yes,55.72,25.32,6.05
+Vilnius,Lithuania,2.85,yes,yes,55.72,25.32,5.38
+Skopje,Macedonia,2.08,no,no,42.0,21.43,9.36
+Balti,Moldova,4.06,no,no,47.76,28.86,8.23
+Chisinau,Moldova,4.06,no,no,47.76,28.86,8.6
+Podgorica,Montenegro,0.63,no,yes,42.47,19.27,10.636
+Bialystok,Poland,38.59,yes,yes,53.15,23.17,6.07
+Bydgoszcz,Poland,38.59,yes,yes,53.12,19.43,7.14
+Bytom,Poland,38.59,yes,yes,52.48,19.43,8.459047619047618
+Elblag,Poland,38.59,yes,yes,52.48,19.4,6.68
+Kielce,Poland,38.59,yes,yes,50.89,20.66,7.29
+Koszalin,Poland,38.59,yes,yes,54.2,19.43,8.459047619047618
+Poznan,Poland,38.59,yes,yes,52.41,16.9,8.31
+Wroclaw,Poland,38.59,yes,yes,51.11,17.03,8.459047619047618
+Warsaw,Poland,38.59,yes,yes,52.48,19.43,7.2
+Botosani,Romania,19.37,yes,yes,47.75,26.66,8.23
+Braila,Romania,19.37,yes,yes,45.29,27.97,8.459047619047618
+Bucharest,Romania,19.37,yes,yes,44.43,26.1,8.459047619047618
+Craiova,Romania,19.37,yes,yes,44.33,25.96,8.459047619047618
+Sibiu,Romania,19.37,yes,yes,45.8,24.14,8.459047619047618
+Arad,Romania,19.37,yes,yes,45.52,21.32,8.459047619047618
+Bacau,Romania,19.37,yes,yes,45.52,26.92,7.51
+Baia Mare,Romania,19.37,yes,yes,45.52,25.96,8.87
+Constanta,Romania,19.37,yes,yes,45.52,28.61,11.24
+Belgrade,Serbia,8.81,no,no,44.82,20.88,7.55
+Nis,Serbia,8.81,no,no,44.82,21.9,9.36
+Novi Sad,Serbia,8.81,no,no,44.82,19.85,10.34
+Bratislava,Slovakia,5.43,yes,no,48.15,17.12,8.507142857142856
+Kosice,Slovakia,5.43,yes,no,48.73,17.12,7.31
+MalmÃ¶,Sweden,9.85,yes,yes,55.58,17.36,8.459047619047618
+Uppsala,Sweden,9.85,yes,yes,59.86,17.64,4.17
+Bursa,Turkey,79.62,no,yes,40.2,29.07,11.16
+Edirne,Turkey,79.62,no,yes,41.67,26.57,10.636
+Tekirdag,Turkey,79.62,no,yes,40.99,27.51,13.02
+Chernivtsi,Ukraine,44.62,no,yes,48.71,25.92,7.06
+Rivne,Ukraine,44.62,no,yes,48.71,26.25,6.76
