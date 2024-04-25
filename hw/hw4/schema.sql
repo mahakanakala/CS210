@@ -1,43 +1,3 @@
-/*
-
-Implement a Music relational (SQL) database, of the kind that might be used by Spotify or Amazon Music. The database has artists, albums, songs, users, playlists, and ratings.
-
-Type up all the required work specified in the following sections in any word processor, then convert to a PDF file named music_db.pdf. (Handwritten work is NOT acceptable.) Submit this file to Canvas - only one submission per group, please.
-
-You are allowed up to 3 submissions, only the last submission will be graded.
-
-NOTE: You may populate the tables with data for your own testing, but we do not want you to turn in any of the data, or the results of any of your queries. We are only asking for the document with the required SQL statements for table creation and queries.
-
-Database Schema (50 pts)
-You are given the following description of the entities that need to be stored in the database. Your task is to design a database schema (set of tables) to store these entities.
-
-Your schema must be minimally redundant in storing data. In other words, you should build a set of tables that minimize the repetition of data, by using foreign keys - credit will be in accordance with this.
-
-Artist: An individual or a group/band, uniquely identified by their name. An artist might release albums, as well as songs that are not in albums (singles).
-Song: A song has a title and is performed by an artist, either as a part of an album, or as a single that's not part of an album. Every song in an album has the release date of the album, but a single song has its own release date. A song title is unique to an artist (the same artist records a song exactly once), but the title may be shared by multiple artists (i.e. covers).
-A song belongs to one or more genres. For example, a song could be in a single genre, such as R & B, or could be in multiple genres such as Pop and Rock. Genres are pre-defined, and every song must be in at least one genre. Also, songs in an album need not all be in the same genre.
-
-Album: An album is a collection of songs released by an artist, on a certain date. For example, the album Achtung Baby was made by the artist (band) U2, released on November 19, 1991. An album name is not unique, but the combination of album name and artist name is unique.
-User: A user is uniquely identified by their username. A user can optionally have one or more playlists, and optionally have ratings for songs, albums, or playlists. In other words, it's possible that a user has no playlists, and hasn't given any ratings.
-Playlist: A user can make any number of playlists of songs. Note: A playlist may not include an entire album, only individual songs. Each song is either from some album, or a single that's not in any album.
-Every playlist has a title, and a date+time when it was created. A playlist may be modified any number of times after creation by adding or removing songs, but the title and date+time will not change.
-
-The title of a playlist is not unique since different users might create playlists with the same title. However, a user's playlists will have unique titles.
-
-Rating: A user could rate an album, a song (even if it's in an album), or a playlist. A rating is limited to 1,2,3,4, or 5 (numeric), and is made on a specific date.
-Note: The items listed above do NOT necessarily correspond 1-1 with tables, although some of them might. They simply detail all the data you will need to store whatever table structure you adopt. This also means you can create as many tables as you need to reduce redundancy.
-
-Your database structure should have the most appropriate data type and size for each column in each table.
-
-For size of data, think of a realistic online music service and imagine how many songs/artists/albums/playlists/users/ratings it might have to support. The idea is to use the least amount of storage space for each column that will be able to store the entire range of foreseeable values.
-
-Make sure you define and specify all primary keys, foreign keys, unique valued columns or unique valued combination of columns, and null/non-null properties for columns.
-
-In the document you will submit, type in the create table statement for each of the tables you create in the database. If you don't have the full create statement for a table, you will not get credit for it.
-Note: When you test your design in MySQL, you might use alter table statements after the initial create. However, for the submission, you are required to rewrite the whole sequence as a single create table statement per table
-
-*/
-
 CREATE DATABASE mlk224_DB;
 USE mlk224_DB;
 
@@ -150,21 +110,20 @@ INSERT INTO user (username) VALUES
 ('popstar'),
 ('hiphophead'),
 ('edmdj'),
-('bluesmaster'),
-('luver');
+('bluesmaster');
 
 -- Inserting dummy playlist data
 INSERT INTO playlist (playlist_title, time_created, username) VALUES 
-('My Playlist', NOW(), 'user123'),
-('Favorites', NOW(), 'musiclover'),
-('Top Picks', NOW(), 'rockstar'),
-('Chill Vibes', NOW(), 'jazzfan'),
-('Workout Mix', NOW(), 'metalhead'),
-('Relaxation Station', NOW(), 'classicfan'),
-('Party Playlist', NOW(), 'popstar'), 
-('Rap Rotation', NOW(), 'hiphophead'),
-('Dance Floor', NOW(), 'edmdj'),
-('Blues Tunes', NOW(), 'bluesmaster');
+('My Playlist', '2023-04-25 18:01:00', 'user123'),
+('Favorites', '2023-04-25 18:01:00', 'musiclover'),
+('Top Picks', '2023-04-25 18:01:00', 'rockstar'),
+('Chill Vibes', '2023-04-25 18:01:00', 'jazzfan'),
+('Workout Mix', '2023-04-25 18:01:00', 'metalhead'),
+('Relaxation Station', '2023-04-25 18:01:00', 'classicfan'),
+('Party Playlist', '2023-04-25 18:01:00', 'popstar'), 
+('Rap Rotation', '2023-04-25 18:01:00', 'hiphophead'),
+('Dance Floor', '2023-04-25 18:01:00', 'edmdj'),
+('Blues Tunes', '2023-04-25 18:01:00', 'bluesmaster');
 
 -- Inserting dummy playlist-song mappings
 INSERT INTO playlist_song (playlist_title, song_title) VALUES 
@@ -177,8 +136,7 @@ INSERT INTO playlist_song (playlist_title, song_title) VALUES
 ('Relaxation Station', 'Song 7'),
 ('Party Playlist', 'Song 8'),
 ('Rap Rotation', 'Song 9'), 
-('Dance Floor', 'Song 10'),
-('Blues Tunes', 'Song 11');
+('Dance Floor', 'Song 10');
 
 -- Inserting dummy ratings
 INSERT INTO rating (username, song_title, album_name, rating) VALUES 
@@ -189,6 +147,18 @@ INSERT INTO rating (username, song_title, album_name, rating) VALUES
 ('metalhead', 'Song 5', 'Pop Hits', 5),
 ('classicfan', 'Song 6', 'Classical Collection', 5),
 ('popstar', 'Song 7', 'Greatest Hits', 4),
-('hiphophead', 'Song 8', 'Rap Anthems', 4),
-('edmdj', 'Song 9', 'Dance Hits', 5),
-('bluesmaster', 'Song 10', 'Blues Classics', 5);
+('hiphophead', 'Song 8', 'Greatest Hits 2', 4),
+('edmdj', 'Song 9', 'Love Songs 2', 5),
+('bluesmaster', 'Song 10', 'Greatest Hits', 5);
+
+INSERT INTO genre (song_title, genre) VALUES
+('Song 1', 'Pop'),
+('Song 2', 'Rock'),
+('Song 3', 'Love'),
+('Song 4', 'Rock'),
+('Song 5', 'Pop'),
+('Song 6', 'Classical'),
+('Song 7', 'Pop'),
+('Song 8', 'Hip Hop'),
+('Song 9', 'Love'),
+('Song 10', 'Pop');
