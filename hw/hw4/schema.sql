@@ -38,8 +38,8 @@ Note: When you test your design in MySQL, you might use alter table statements a
 
 */
 
-CREATE DATABASE DB;
-USE DB;
+CREATE DATABASE mlk224_DB;
+USE mlk224_DB;
 
 CREATE TABLE artist(
     `artist_name` VARCHAR(50) PRIMARY KEY NOT NULL UNIQUE 
@@ -50,16 +50,16 @@ CREATE TABLE album(
     `release_date` DATETIME,
     `artist_name` VARCHAR(50),
     PRIMARY KEY (`album_name`, `artist_name`),
-    FOREIGN KEY (`artist_name`) REFERENCES artist(`name`)
+    FOREIGN KEY (`artist_name`) REFERENCES artist(`artist_name`)
 );
 
 CREATE TABLE song(
     `song_title` VARCHAR(50) NOT NULL,
     `artist_name` VARCHAR(50) NOT NULL,
-    `album_title` VARCHAR(50),
+    `album_name` VARCHAR(50),
     PRIMARY KEY (`song_title`, `artist_name`),
-    FOREIGN KEY (`artist_name`) REFERENCES artist(`name`),
-    FOREIGN KEY (`album_title`) REFERENCES album(`album_title`)
+    FOREIGN KEY (`artist_name`) REFERENCES artist(`artist_name`),
+    FOREIGN KEY (`album_name`) REFERENCES album(`album_name`)
 );
 
 CREATE TABLE user(
@@ -85,10 +85,110 @@ CREATE TABLE playlist_song(
 CREATE TABLE rating(
     `username` VARCHAR(50) NOT NULL,
     `song_title` VARCHAR(50) NOT NULL,
-    `album_title` VARCHAR(50) NOT NULL,
+    `album_name` VARCHAR(50) NOT NULL,
     `rating` INT CHECK (rating >= 1 AND rating <= 5), 
-    PRIMARY KEY (`username`, `song_title`, `album_title`),
+    PRIMARY KEY (`username`, `song_title`, `album_name`),
     FOREIGN KEY (`username`) REFERENCES user(`username`),
     FOREIGN KEY (`song_title`) REFERENCES song(`song_title`),
-    FOREIGN KEY (`album_title`) REFERENCES album(`album_title`)
+    FOREIGN KEY (`album_name`) REFERENCES album(`album_name`)
 );
+
+CREATE TABLE genre (
+    `song_title` VARCHAR(50) NOT NULL,
+    `genre` VARCHAR(10),
+    PRIMARY KEY (`song_title`, `genre`),
+    FOREIGN KEY (`song_title`) REFERENCES song(`song_title`)
+);
+
+-- Inserting dummy artist data
+INSERT INTO artist (artist_name) VALUES 
+('John Doe'),
+('Jane Smith'),
+('Michael Johnson'),
+('Emily White'),
+('Alex Brown'),
+('Nikhila Sundar'),
+('Maha Kanakala'),
+('Adam Trabelsi'),
+('Chase Atlantic'),
+('Jhene Aiko');
+
+-- Inserting dummy album data
+INSERT INTO album (album_name, release_date, artist_name) VALUES 
+('Greatest Hits', '2020-01-01', 'John Doe'),
+('Love Songs', '2018-05-15', 'Jane Smith'),
+('Rock Anthems', '2019-09-20', 'Michael Johnson'),
+('Pop Hits', '2021-03-10', 'Emily White'),
+('Classical Collection', '2022-07-05', 'Alex Brown'),
+('Classical Collection 2', '2022-08-05', 'Nikhila Sundar'), 
+('Classical Collection 3', '2024-08-05', 'Adam Trabelsi'),
+('Love Songs 2', '2021-08-05', 'Maha Kanakala'),          
+('Rock Anthems 2', '2020-09-20', 'Chase Atlantic'),      
+('Greatest Hits 2', '2019-10-20', 'Michael Johnson'); 
+
+-- Inserting dummy song data
+INSERT INTO song (song_title, artist_name, album_name) VALUES 
+('Song 1', 'John Doe', 'Greatest Hits'),
+('Song 2', 'John Doe', 'Greatest Hits'),
+('Song 3', 'Jane Smith', 'Love Songs'),
+('Song 4', 'Michael Johnson', 'Rock Anthems'),
+('Song 5', 'Emily White', 'Pop Hits'),
+('Song 6', 'Alex Brown', 'Classical Collection'),
+('Song 7', 'John Doe', 'Greatest Hits'),
+('Song 8', 'Jane Smith', 'Love Songs'),
+('Song 9', 'Michael Johnson', 'Rock Anthems'),
+('Song 10', 'Emily White', 'Pop Hits');
+
+-- Inserting dummy user data
+INSERT INTO user (username) VALUES 
+('user123'),
+('musiclover'),
+('rockstar'),
+('jazzfan'),
+('metalhead'),
+('classicfan'),
+('popstar'),
+('hiphophead'),
+('edmdj'),
+('bluesmaster'),
+('luver');
+
+-- Inserting dummy playlist data
+INSERT INTO playlist (playlist_title, time_created, username) VALUES 
+('My Playlist', NOW(), 'user123'),
+('Favorites', NOW(), 'musiclover'),
+('Top Picks', NOW(), 'rockstar'),
+('Chill Vibes', NOW(), 'jazzfan'),
+('Workout Mix', NOW(), 'metalhead'),
+('Relaxation Station', NOW(), 'classicfan'),
+('Party Playlist', NOW(), 'popstar'), 
+('Rap Rotation', NOW(), 'hiphophead'),
+('Dance Floor', NOW(), 'edmdj'),
+('Blues Tunes', NOW(), 'bluesmaster');
+
+-- Inserting dummy playlist-song mappings
+INSERT INTO playlist_song (playlist_title, song_title) VALUES 
+('My Playlist', 'Song 1'),
+('My Playlist', 'Song 2'),
+('Favorites', 'Song 3'),
+('Top Picks', 'Song 4'),
+('Chill Vibes', 'Song 5'),
+('Workout Mix', 'Song 6'),
+('Relaxation Station', 'Song 7'),
+('Party Playlist', 'Song 8'),
+('Rap Rotation', 'Song 9'), 
+('Dance Floor', 'Song 10'),
+('Blues Tunes', 'Song 11');
+
+-- Inserting dummy ratings
+INSERT INTO rating (username, song_title, album_name, rating) VALUES 
+('user123', 'Song 1', 'Greatest Hits', 4),
+('musiclover', 'Song 2', 'Greatest Hits', 5),
+('rockstar', 'Song 3', 'Love Songs', 3),
+('jazzfan', 'Song 4', 'Rock Anthems', 4),
+('metalhead', 'Song 5', 'Pop Hits', 5),
+('classicfan', 'Song 6', 'Classical Collection', 5),
+('popstar', 'Song 7', 'Greatest Hits', 4),
+('hiphophead', 'Song 8', 'Rap Anthems', 4),
+('edmdj', 'Song 9', 'Dance Hits', 5),
+('bluesmaster', 'Song 10', 'Blues Classics', 5);
