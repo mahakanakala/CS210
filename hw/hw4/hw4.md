@@ -82,9 +82,9 @@ SELECT genre, count(*) as number_of_songs
 SELECT artist_name
     FROM artist
     WHERE artist_name IN (
-        SELECT artist_name FROM song WHERE album_title IS NOT NULL
+        SELECT artist_name FROM song WHERE album_name IS NOT NULL
     ) AND artist_name IN (
-        SELECT artist_name FROM song WHERE album_title IS NULL
+        SELECT artist_name FROM song WHERE album_name IS NULL
 );
 ```
 
