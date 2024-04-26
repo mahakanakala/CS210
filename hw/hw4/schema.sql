@@ -46,16 +46,16 @@ CREATE TABLE playlist_song(
 CREATE TABLE rating(
     `username` VARCHAR(50) NOT NULL,
     `song_title` VARCHAR(50) NOT NULL,
-    `album_name` VARCHAR(50) NOT NULL,
-    `rating` INT CHECK (rating >= 1 AND rating <= 5), 
+    `album_name` VARCHAR(50),
+    `rating` TINYINT CHECK (rating >= 1 AND rating <= 5), 
     `rating_date` DATETIME,
-    PRIMARY KEY (`username`, `song_title`, `album_name`),
+    PRIMARY KEY (`username`, `song_title`),
     FOREIGN KEY (`username`) REFERENCES user(`username`),
     FOREIGN KEY (`song_title`) REFERENCES song(`song_title`),
     FOREIGN KEY (`album_name`) REFERENCES album(`album_name`)
 );
 
-CREATE TABLE genre (rat
+CREATE TABLE genre (
     `song_title` VARCHAR(50) NOT NULL,
     `genre` VARCHAR(10),
     PRIMARY KEY (`song_title`, `genre`),
