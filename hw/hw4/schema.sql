@@ -17,6 +17,7 @@ CREATE TABLE song(
     `song_title` VARCHAR(50) NOT NULL,
     `artist_name` VARCHAR(50) NOT NULL,
     `album_name` VARCHAR(50),
+    `song_creation_time` DATETIME,
     PRIMARY KEY (`song_title`, `artist_name`),
     FOREIGN KEY (`artist_name`) REFERENCES artist(`artist_name`),
     FOREIGN KEY (`album_name`) REFERENCES album(`album_name`)
@@ -47,13 +48,14 @@ CREATE TABLE rating(
     `song_title` VARCHAR(50) NOT NULL,
     `album_name` VARCHAR(50) NOT NULL,
     `rating` INT CHECK (rating >= 1 AND rating <= 5), 
+    `rating_date` DATETIME,
     PRIMARY KEY (`username`, `song_title`, `album_name`),
     FOREIGN KEY (`username`) REFERENCES user(`username`),
     FOREIGN KEY (`song_title`) REFERENCES song(`song_title`),
     FOREIGN KEY (`album_name`) REFERENCES album(`album_name`)
 );
 
-CREATE TABLE genre (
+CREATE TABLE genre (rat
     `song_title` VARCHAR(50) NOT NULL,
     `genre` VARCHAR(10),
     PRIMARY KEY (`song_title`, `genre`),
@@ -87,17 +89,17 @@ INSERT INTO album (album_name, release_date, artist_name) VALUES
 ('Greatest Hits 2', '2019-10-20', 'Michael Johnson'); 
 
 -- Inserting dummy song data
-INSERT INTO song (song_title, artist_name, album_name) VALUES 
-('Song 1', 'John Doe', 'Greatest Hits'),
-('Song 2', 'John Doe', 'Greatest Hits'),
-('Song 3', 'Jane Smith', 'Love Songs'),
-('Song 4', 'Michael Johnson', 'Rock Anthems'),
-('Song 5', 'Emily White', 'Pop Hits'),
-('Song 6', 'Alex Brown', 'Classical Collection'),
-('Song 7', 'John Doe', 'Greatest Hits'),
-('Song 8', 'Jane Smith', 'Love Songs'),
-('Song 9', 'Michael Johnson', 'Rock Anthems'),
-('Song 10', 'Emily White', 'Pop Hits');
+INSERT INTO song (song_title, artist_name, album_name, song_creation_time) VALUES 
+('Song 1', 'John Doe', 'Greatest Hits', TIMESTAMP('2023-04-01 10:00:00')),
+('Song 2', 'John Doe', 'Greatest Hits', TIMESTAMP('2023-04-02 11:30:00')),
+('Song 3', 'Jane Smith', 'Love Songs', TIMESTAMP('2023-04-03 14:15:00')),
+('Song 4', 'Michael Johnson', 'Rock Anthems', TIMESTAMP('2023-04-04 16:45:00')),
+('Song 5', 'Emily White', 'Pop Hits', TIMESTAMP('2023-04-05 09:00:00')),
+('Song 6', 'Alex Brown', 'Classical Collection', TIMESTAMP('2023-04-06 13:20:00')),
+('Song 7', 'John Doe', 'Greatest Hits', TIMESTAMP('2023-04-07 15:40:00')),
+('Song 8', 'Jane Smith', 'Love Songs', TIMESTAMP('2023-04-08 11:10:00')),
+('Song 9', 'Michael Johnson', 'Rock Anthems', TIMESTAMP('2023-04-09 14:30:00')),
+('Song 10', 'Emily White', 'Pop Hits', TIMESTAMP('2023-04-10 08:45:00'));
 
 -- Inserting dummy user data
 INSERT INTO user (username) VALUES 
@@ -139,17 +141,17 @@ INSERT INTO playlist_song (playlist_title, song_title) VALUES
 ('Dance Floor', 'Song 10');
 
 -- Inserting dummy ratings
-INSERT INTO rating (username, song_title, album_name, rating) VALUES 
-('user123', 'Song 1', 'Greatest Hits', 4),
-('musiclover', 'Song 2', 'Greatest Hits', 5),
-('rockstar', 'Song 3', 'Love Songs', 3),
-('jazzfan', 'Song 4', 'Rock Anthems', 4),
-('metalhead', 'Song 5', 'Pop Hits', 5),
-('classicfan', 'Song 6', 'Classical Collection', 5),
-('popstar', 'Song 7', 'Greatest Hits', 4),
-('hiphophead', 'Song 8', 'Greatest Hits 2', 4),
-('edmdj', 'Song 9', 'Love Songs 2', 5),
-('bluesmaster', 'Song 10', 'Greatest Hits', 5);
+INSERT INTO rating (username, song_title, album_name, rating, rating_date) VALUES 
+('user123', 'Song 1', 'Greatest Hits', 4, '2023-04-01'),
+('musiclover', 'Song 2', 'Greatest Hits', 5, '2023-04-02'),
+('rockstar', 'Song 3', 'Love Songs', 3, '2023-04-03'),
+('jazzfan', 'Song 4', 'Rock Anthems', 4, '2023-04-04'),
+('metalhead', 'Song 5', 'Pop Hits', 5, '2023-04-05'),
+('classicfan', 'Song 6', 'Classical Collection', 5, '2023-04-06'),
+('popstar', 'Song 7', 'Greatest Hits', 4, '2023-04-07'),
+('hiphophead', 'Song 8', 'Greatest Hits 2', 4, '2023-04-08'),
+('edmdj', 'Song 9', 'Love Songs 2', 5, '2023-04-09'),
+('bluesmaster', 'Song 10', 'Greatest Hits', 5, '2023-04-10');
 
 INSERT INTO genre (song_title, genre) VALUES
 ('Song 1', 'Pop'),
