@@ -78,11 +78,14 @@ SELECT genre, count(*) as number_of_songs
 ```
 
 2. 
-
 ```SQL
-SELECT genre, count(*) as number_of_songs
-    FROM genre
-    LIMIT 3;
+SELECT artist_name
+    FROM artist
+    WHERE artist_name IN (
+        SELECT artist_name FROM song WHERE album_title IS NOT NULL
+    ) AND artist_name IN (
+        SELECT artist_name FROM song WHERE album_title IS NULL
+);
 ```
 
 3. 
